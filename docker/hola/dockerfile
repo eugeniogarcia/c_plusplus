@@ -1,0 +1,15 @@
+FROM cpp-build-base:0.1.0 AS build
+
+WORKDIR /src
+
+COPY CMakeLists.txt hola.cpp hola.h ./
+
+RUN cmake . && make
+
+FROM ubuntu:bionic
+
+WORKDIR /opt/hola
+
+COPY --from=build /src/hola ./
+
+CMD ["./hola"]
