@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="foundation\basic_controller.cpp">
+      <Filter>foundation</Filter>
+    </ClCompile>
+    <ClCompile Include="foundation\network_utils.cpp">
+      <Filter>foundation</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="foundation">
+      <UniqueIdentifier>{d9e2dcec-d6e9-49e7-b056-530982c87758}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="foundation\include">
+      <UniqueIdentifier>{948cf3f7-e9bb-42e6-8776-b1fbb0283307}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="foundation\include\basic_controller.hpp">
+      <Filter>foundation\include</Filter>
+    </ClInclude>
+    <ClInclude Include="foundation\include\controller.hpp">
+      <Filter>foundation\include</Filter>
+    </ClInclude>
+    <ClInclude Include="foundation\include\network_utils.hpp">
+      <Filter>foundation\include</Filter>
+    </ClInclude>
+    <ClInclude Include="foundation\include\runtime_utils.hpp">
+      <Filter>foundation\include</Filter>
+    </ClInclude>
+    <ClInclude Include="foundation\include\std_micro_service.hpp">
+      <Filter>foundation\include</Filter>
+    </ClInclude>
+    <ClInclude Include="foundation\include\usr_interrupt_handler.hpp">
+      <Filter>foundation\include</Filter>
+    </ClInclude>
+    <ClInclude Include="microsvc_controller.hpp" />
+  </ItemGroup>
+</Project>
