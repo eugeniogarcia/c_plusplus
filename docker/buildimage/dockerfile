@@ -1,0 +1,53 @@
+# our local base image
+FROM ubuntu:bionic
+#Argumento para la contraseña. Por defecto la contraseña es docker
+ARG PW=docker
+
+LABEL description="Container for use with Visual Studio" 
+
+# install build dependencies 
+RUN apt-get update && apt-get install -y apt-utils rsync zip unzip tar
+
+#installa ssh
+RUN apt-get install -y openssh-server openssl
+
+# instala utilidades
+RUN apt-get install -y vim git curl 
+
+# instala el compilador de c++, make y el depurador de c
+RUN apt-get install -y g++ make gdb 
+
+# install boost and cmake
+RUN apt-get install -y cmake libboost-all-dev
+
+# configure SSH for communication with Visual Studio 
+RUN mkdir -p /var/run/sshd
+
+#Configura ssh
+RUN echo 'Ciphers aes256-cbc,aes192-cbc,aes128-cbc,3des-cbc' >> /etc/ssh/sshd_config
+RUN echo 'HostKeyAlgorithms ssh-rsa' >> /etc/ssh/sshd_config
+RUN echo 'KexAlgorithms diffie-hellman-group-exchange-sha256,diffie-hellman-group-exchange-sha1,diffie-hellman-group14-sha1' >> /etc/ssh/sshd_config
+RUN echo 'MACs hmac-sha2-256,hmac-sha1' >> /etc/ssh/sshd_config
+RUN echo 'PasswordAuthentication yes' >> /etc/ssh/sshd_config && \ 
+   ssh-keygen -A 
+
+#Añade el usuario
+RUN useradd -m -d /home/egsmartin -s /bin/bash -G sudo egsmartin
+
+#Pone la contraseña
+RUN echo "egsmartin:${PW}" | chpasswd
+
+# Instala la libreria para implementar REST services 
+RUN apt-get install -y libboost-atomic-dev libboost-thread-dev libboost-system-dev libboost-date-time-dev libboost-regex-dev \
+libboost-filesystem-dev libboost-random-dev libboost-chrono-dev libboost-serialization-dev libwebsocketpp-dev libssl-dev \
+ninja-build libcpprest-dev
+
+# SQLite3
+RUN apt-get install -y sqlite3 libsqlite3-dev 
+
+# expose port 22 8080 8081
+EXPOSE 22 8080 8081
+
+COPY commands.sh /home/egsmartin/scripts/commands.sh
+RUN ["chmod", "+x", "/home/egsmartin/scripts/commands.sh"]
+ENTRYPOINT ["/home/egsmartin/scripts/commands.sh"]
